@@ -1,0 +1,39 @@
+# ==================== SERVER ====================
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+
+# ==================== DATA HANDLING ====================
+pandas
+numpy
+scipy
+
+# ==================== TEXT PROCESSING ====================
+nltk
+regex
+trafilatura
+beautifulsoup4
+
+# ==================== MACHINE LEARNING ====================
+scikit-learn==1.7.2   # pinned — best_model.pkl was saved with this exact version;
+                       # a newer sklearn loads it with an InconsistentVersionWarning
+                       # and a real risk of silently different predictions
+joblib
+
+# ==================== EXPLAINABILITY ====================
+shap
+langchain
+langchain-groq
+
+# ==================== API & WEB ====================
+requests
+httpx
+
+# ==================== UTILITIES ====================
+typing-extensions
+
+
+# cd backend
+# pip install -r requirements.txt
+# python -m uvicorn main:app --reload --port 8000

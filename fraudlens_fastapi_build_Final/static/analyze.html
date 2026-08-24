@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Analyze a posting — FraudLens</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="shared/nav.css" />
+</head>
+<body>
+
+<!-- ==================== ANALYSIS FORM ==================== -->
+<section id="analyze" class="panel" style="padding-top: 24px;">
+  <h2>Provide a job posting to analyze</h2>
+
+  <div class="form-header-row">
+    <span></span>
+    <button type="button" id="clear-btn" class="btn-clear">Clear</button>
+  </div>
+
+  <form id="analyze-form">
+    <label>Job title (optional)
+      <input type="text" id="job_title" name="job_title" />
+    </label>
+
+    <label>Company name
+      <input type="text" id="company_name" name="company_name" />
+    </label>
+
+    <label>Job description
+      <textarea id="job_description" name="job_description" rows="8" placeholder="Paste the full job posting text here..." required></textarea>
+    </label>
+
+    <label>Posting URL (optional)
+      <input type="url" id="url" name="url" placeholder="https://example.com/job/12345" />
+    </label>
+
+    <div class="checkbox-row">
+      <label><input type="checkbox" id="has_logo" name="has_logo" /> Company has a logo</label>
+      <label><input type="checkbox" id="has_profile" name="has_profile" /> Company profile provided</label>
+      <label><input type="checkbox" id="has_questions" name="has_questions" /> Posting includes screening questions</label>
+    </div>
+
+    <button type="submit" class="btn-primary" id="analyze-btn">Analyze posting</button>
+  </form>
+
+  <div id="analyze-error" class="error-banner" hidden></div>
+</section>
+
+<!-- ==================== RESULTS (populated by script.js) ==================== -->
+<section id="results" class="panel" hidden>
+  <h2>Results</h2>
+
+  <div id="similar-scam-banner" class="warning-banner" hidden></div>
+
+  <div class="score-row">
+    <div class="block">
+      <span class="label">Content risk</span>
+      <div class="score-line">
+        <span id="content-risk-value" class="score-big">—</span>
+        <span id="risk-badge" class="badge">—</span>
+      </div>
+    </div>
+    <div class="block">
+      <span class="label">Verification status</span>
+      <div class="score-line">
+        <span id="verification-value" class="score-big">—</span>
+        <span id="verification-badge" class="badge">—</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <span class="label">Verification details</span>
+    <ul id="verification-reasons"></ul>
+  </div>
+
+  <div class="block">
+    <span class="label">Scam keyword red flags</span>
+    <div id="keyword-matches"></div>
+  </div>
+
+  <div class="block">
+    <span class="label">Why was this flagged this way?</span>
+    <p id="llm-explanation"></p>
+  </div>
+
+  <div class="block">
+    <span class="label">Red-flag checklist</span>
+    <ul id="red-flag-checklist"></ul>
+  </div>
+
+  <div class="block">
+    <span class="label">Detailed risk breakdown</span>
+    <div id="risk-breakdown"></div>
+  </div>
+
+  <div class="block">
+    <span class="label">Report this posting</span>
+    <p class="fineprint">Reporting stores this posting locally to help flag similar scams in future scans — it does not get sent to any government body or company. To actually report a scam, use the official channels below:</p>
+    <ul class="fineprint-list">
+      <li><strong>NCRP (India)</strong> — <a href="https://cybercrime.gov.in" target="_blank" rel="noopener">cybercrime.gov.in</a> or call 1930</li>
+      <li><strong>BBB</strong> — <a href="https://bbb.org/scamtracker" target="_blank" rel="noopener">bbb.org/scamtracker</a></li>
+      <li>LinkedIn / Indeed / Naukri — use their "Report Job" feature</li>
+    </ul>
+    <button id="report-btn" class="btn-secondary">Report as suspicious scam</button>
+    <p id="report-confirmation" class="confirmation" hidden></p>
+  </div>
+</section>
+
+<script src="shared/nav.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>How it works — FraudLens</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="shared/nav.css" />
+</head>
+<body>
+
+<section class="content-page">
+  <h1>How FraudLens works</h1>
+  <p class="page-sub">A structured-plus-text classifier, a two-stage explainability pipeline, and a live verification layer — instead of one opaque Real/Fake label.</p>
+
+  <h2>The core idea</h2>
+  <p>Most fraud-detection systems treat this as a text-only problem: read the posting, return one label, no explanation. FraudLens treats it differently on both counts. It weighs <strong>structured metadata</strong> — company logo, profile completeness, salary range — alongside the wording of the description, because scammers can imitate legitimate-sounding language far more easily than they can fabricate a consistent company presence. And instead of one label, it reports two independent scores: <strong>Content Risk</strong> and <strong>Verification Status</strong>.</p>
+
+  <h2>Pipeline stages</h2>
+
+  <div class="pipeline-stage">
+    <span class="stage-num">01 · MODEL</span>
+    <h3>Classification</h3>
+    <p>Five classical ML algorithms were trained and compared on the EMSCAD dataset (17,880 postings, ~4.8% fraudulent) using TF-IDF text features plus metadata: Naive Bayes, Logistic Regression, SVM, Random Forest, and XGBoost. Class imbalance was handled with SMOTE on the training split only, and models were compared on fraud-class F1-score rather than raw accuracy — a naive "always genuine" classifier would score above 95% accuracy while catching zero fraud. LinearSVC (SVM) won with an F1 of 0.845, narrowly ahead of XGBoost at 0.844.</p>
+  </div>
+
+  <div class="pipeline-stage">
+    <span class="stage-num">02 · SHAP</span>
+    <h3>Feature attribution</h3>
+    <p>For each prediction, SHAP's Linear Explainer (the correct variant for a linear-boundary model like LinearSVC) produces a ranked list of which features — TF-IDF text tokens and metadata flags — pushed that specific prediction toward "fraudulent" or "genuine," each with a signed weight.</p>
+  </div>
+
+  <div class="pipeline-stage">
+    <span class="stage-num">03 · LLM</span>
+    <h3>Plain-English explanation</h3>
+    <p>Raw SHAP output is a list of feature names and numbers — not usable by a non-technical job seeker. The top SHAP features are passed to an LLM (via LangChain, using Groq's Llama 3.1 8B Instant) with a structured prompt that translates them into a short explanation. Two deliberate prompt choices matter here: raw feature names are translated to human-readable phrases before the LLM sees them, and low-signal common words are filtered out first — both fixes for explanations that otherwise leaked implementation detail or read as noisy.</p>
+  </div>
+
+  <div class="pipeline-stage">
+    <span class="stage-num">04 · KEYWORDS</span>
+    <h3>Rule-based scam-keyword layer</h3>
+    <p>An independent scam-keyword scanner runs across categories — payment requests, urgency pressure, vague contact info, unrealistic offers — seeded partly from the SMS Spam Collection dataset and kept current from BBB Scam Tracker. It's deliberately separate from the trained model: postings it flags show a 34.2% real fraud rate against a 4.8% dataset-wide baseline, validating it as an independent signal rather than a duplicate of the classifier.</p>
+  </div>
+
+  <div class="pipeline-stage">
+    <span class="stage-num">05 · VERIFICATION</span>
+    <h3>Live company checks</h3>
+    <p>Verification Status is computed separately from Content Risk, combining a company registry check (OpenCorporates), a web-presence check (Tavily, requiring the company name to literally appear in matched results — not just loose keyword overlap), and posting metadata like logo/profile presence.</p>
+  </div>
+
+  <h2>Why two scores, not one</h2>
+  <p>A single blended Real/Fake label collapses two different kinds of evidence — how the posting reads, and whether the company checks out — into one number a user can't interrogate. Keeping them separate means a posting with clean text but an unverifiable company still gets flagged, and vice versa, with the actual reason visible either way.</p>
+</section>
+
+<script src="shared/nav.js"></script>
+</body>
+</html>

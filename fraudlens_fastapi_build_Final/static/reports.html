@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Reports & transparency — FraudLens</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="shared/nav.css" />
+</head>
+<body>
+
+<section class="content-page">
+  <h1>Reports & transparency</h1>
+  <p class="page-sub">What happens when you report a posting, and what the aggregate data looks like right now.</p>
+
+  <h2>How your report is used</h2>
+  <p>Reporting a posting from the Analyzer stores it locally to help flag similar scams in future scans — it is not sent to any government body or company, and no individual report is shown publicly on this page. To actually report a scam, use the official channels:</p>
+  <ul>
+    <li><strong>NCRP (India)</strong> — <a href="https://cybercrime.gov.in" target="_blank" rel="noopener">cybercrime.gov.in</a> or call 1930</li>
+    <li><strong>BBB Scam Tracker</strong> — <a href="https://bbb.org/scamtracker" target="_blank" rel="noopener">bbb.org/scamtracker</a></li>
+    <li>LinkedIn / Indeed / Naukri — use their "Report Job" feature directly</li>
+  </ul>
+  <p>Periodically, reported postings are fed through the same candidate-phrase extraction used for the BBB pipeline: a phrase is only promoted into the live scam-keyword list once it's independently confirmed across 5 or more separate reports, filtered against a safe-list of common legitimate hiring words. This keeps the keyword layer current without any single report being able to skew it.</p>
+
+  <h2>Aggregate stats</h2>
+  <p class="fineprint" id="stats-updated">Loading…</p>
+  <div class="stat-row" id="stat-row">
+    <div class="stat-block"><span class="stat-value" id="stat-total">—</span><span class="stat-label">Total reports</span></div>
+    <div class="stat-block"><span class="stat-value" id="stat-high">—</span><span class="stat-label">High risk</span></div>
+    <div class="stat-block"><span class="stat-value" id="stat-unverified">—</span><span class="stat-label">Unverified company</span></div>
+  </div>
+
+  <div class="block" id="keyword-cat-block" hidden>
+    <span class="label">Most common flagged categories</span>
+    <div id="keyword-cat-list"></div>
+  </div>
+</section>
+
+<script src="shared/nav.js"></script>
+<script>
+(async function () {
+  const updated = document.getElementById("stats-updated");
+  try {
+    const res = await fetch("/reports/stats");
+    if (!res.ok) throw new Error(`Request failed (${res.status})`);
+    const s = await res.json();
+
+    document.getElementById("stat-total").textContent = s.total_reports ?? "0";
+    document.getElementById("stat-high").textContent = (s.risk_bucket_counts && s.risk_bucket_counts.High) || "0";
+    document.getElementById("stat-unverified").textContent =
+      (s.verification_breakdown && s.verification_breakdown.Unverified) || "0";
+
+    updated.textContent = s.latest_timestamp
+      ? `Last updated ${new Date(s.latest_timestamp).toLocaleString()}`
+      : "No reports on file yet.";
+
+    const cats = s.keyword_category_counts || {};
+    const catKeys = Object.keys(cats);
+    if (catKeys.length) {
+      const block = document.getElementById("keyword-cat-block");
+      block.hidden = false;
+      document.getElementById("keyword-cat-list").innerHTML = catKeys
+        .sort((a, b) => cats[b] - cats[a])
+        .map(k => `<div class="keyword-category"><strong>${k.replace(/_/g, " ")}:</strong> ${cats[k]} reports</div>`)
+        .join("");
+    }
+  } catch (err) {
+    updated.textContent = "Stats unavailable right now.";
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About — FraudLens</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="shared/nav.css" />
+</head>
+<body>
+
+<section class="content-page">
+  <h1>About this project</h1>
+  <p class="page-sub">Built by Aryan Nagar — final-year B.Tech CSE, Global Institute of Technology (GIT), Jaipur.</p>
+
+  <h2>Why FraudLens</h2>
+  <p>Employment scams are getting harder to spot by reading alone — scammers now write postings that read almost exactly like real ones. Cybercrime reports on India's National Cyber Crime Reporting Portal rose from under 0.5 million in 2021 to roughly 2.27 million in 2024, with job-related scams consistently among the top categories. Most existing detection systems treat this purely as a text classification problem and return one label with no way for a job seeker to interrogate it. FraudLens was built to close that gap: combine structural signals with text, explain every flag in plain English, and give two separate scores instead of one verdict.</p>
+
+  <h2>What's under the hood</h2>
+  <p>A LinearSVC classifier trained on EMSCAD (17,880 postings) with TF-IDF text features and metadata, selected over Naive Bayes, Logistic Regression, Random Forest, and XGBoost on fraud-class F1-score. A SHAP explainability layer feeds a Groq-hosted LLM (via LangChain) that turns raw feature attributions into plain-English reasoning. An independent rule-based scam-keyword scanner, live company verification through OpenCorporates and Tavily, and a FastAPI backend serving this custom frontend. See <a href="/how-it-works.html">How it works</a> for the full pipeline breakdown.</p>
+
+  <h2>Background</h2>
+  <p>This started as a college synopsis project and was carried through a full build: data cleaning and feature engineering, five-model comparison, the SHAP + LLM explainability layer, live verification integration, an initial Streamlit deployment, and this current custom FastAPI + HTML/CSS/JS rebuild.</p>
+
+  <div class="about-links">
+    <a href="https://github.com/WnagarAryan" target="_blank" rel="noopener">GitHub</a>
+    <a href="/analyze.html">Try the analyzer →</a>
+  </div>
+</section>
+
+<script src="shared/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FraudLens — Explainable ML Scam Detection</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="shared/nav.css" />
+</head>
+<body class="has-hero">
+
+<!-- ==================== HERO ==================== -->
+<!-- Video bg with poster fallback + reduced-motion respect. Falls back to
+     flat --bg color until assets/hero-bg.mp4 is provided. -->
+<section class="hero">
+
+  <video class="hero-video" autoplay muted loop playsinline
+         poster="assets/hero-fallback.jpg" aria-hidden="true">
+    <source src="assets/hero-bg.mp4" type="video/mp4" />
+  </video>
+  <div class="hero-scrim"></div>
+
+  <div class="ghost-label" style="top: 8%; left: 6%;">TRAINED ON EMSCAD · 17,880 POSTINGS<br />LINEARSVC · TF-IDF · SHAP<br />BINARY CLASSIFIER · FAKE/REAL</div>
+  <div class="ghost-label" style="top: 8%; right: 6%; text-align: right;">NLP · EXPLAINABLE_ML</div>
+  <div class="ghost-label" style="bottom: 8%; left: 6%;">MADE FOR JOB SEEKERS</div>
+  <div class="ghost-label" style="bottom: 8%; right: 6%; text-align: right;">SCAM DETECTION ENGINE<br />v1.0</div>
+
+  <div class="hero-focal">
+    <h1>FRAUDLENS</h1>
+    <p class="hero-sub">An explainable ML system for job scam detection</p>
+    <a href="/analyze.html" class="hero-cta">Analyze a posting →</a>
+  </div>
+</section>
+
+<!-- ==================== BELOW-FOLD SUMMARY ==================== -->
+<section class="content-page">
+  <h2>What FraudLens does</h2>
+  <p>FraudLens reads a job posting the way a skeptical recruiter would — weighing company profile completeness alongside the wording itself — and returns two separate scores instead of one opaque verdict: a <strong>Content Risk</strong> score from a trained classifier, and a <strong>Verification Status</strong> from live company checks. Every flag comes with a plain-English reason, not just a label.</p>
+  <p><a href="/how-it-works.html">See how the pipeline works →</a> or <a href="/analyze.html">jump straight to the analyzer →</a></p>
+</section>
+
+<script src="shared/nav.js"></script>
+</body>
+</html>

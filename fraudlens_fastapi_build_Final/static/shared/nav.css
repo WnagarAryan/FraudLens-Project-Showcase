@@ -1,0 +1,153 @@
+/* ==================== Shared site nav ==================== */
+/* Included on every page after style.css. Reuses the same CSS variables. */
+
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  backdrop-filter: blur(6px);
+  background: color-mix(in srgb, var(--bg) 75%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+
+.site-nav .nav-brand {
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  opacity: 0.92;
+}
+
+.site-nav .nav-links {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+
+.site-nav .nav-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.site-nav .nav-links a:hover,
+.site-nav .nav-links a[aria-current="page"] {
+  color: var(--text-primary);
+}
+
+/* theme-dot is repositioned into the nav flow instead of floating fixed */
+.site-nav .theme-dot {
+  position: static;
+}
+
+/* Page content needs top padding to clear the fixed nav, except the hero
+   which already fills the viewport and sits behind the nav intentionally. */
+body:not(.has-hero) {
+  padding-top: 64px;
+}
+
+/* ==================== Static content pages ==================== */
+/* Used by how-it-works / reports / about — same panel language as the
+   analyzer results blocks, just narrative content instead of form/results. */
+
+.content-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 20px 80px;
+}
+
+.content-page h1 {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.content-page .page-sub {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 40px;
+}
+
+.content-page h2 {
+  font-size: 16px;
+  margin: 40px 0 12px;
+}
+
+.content-page h2:first-of-type { margin-top: 0; }
+
+.content-page p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-primary);
+  margin: 0 0 14px;
+}
+
+.content-page ul {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-primary);
+  padding-left: 20px;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.stat-block {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  background: var(--panel-bg);
+}
+
+.stat-block .stat-value {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.stat-block .stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  display: block;
+}
+
+.pipeline-stage {
+  border-left: 2px solid var(--border);
+  padding-left: 18px;
+  margin-bottom: 24px;
+}
+
+.pipeline-stage .stage-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+}
+
+.pipeline-stage h3 {
+  font-size: 15px;
+  margin: 4px 0 8px;
+}
+
+.about-links {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 13px;
+}
