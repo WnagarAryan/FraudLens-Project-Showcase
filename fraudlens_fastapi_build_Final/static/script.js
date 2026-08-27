@@ -1,7 +1,4 @@
-// Theme toggle is owned by shared/nav.js (injected nav bar), not this file.
-
-// ==================== Analyze form ====================
-
+// Analyze form
 const form = document.getElementById("analyze-form");
 const analyzeBtn = document.getElementById("analyze-btn");
 const errorBanner = document.getElementById("analyze-error");
@@ -65,7 +62,7 @@ document.getElementById("clear-btn").addEventListener("click", () => {
   lastResult = null;
 });
 
-// ==================== Render results ====================
+// Render results
 
 function riskBadgeClass(label) {
   if (label === "High") return "high";
@@ -168,7 +165,7 @@ function renderResults(r) {
   document.getElementById("report-confirmation").hidden = true;
 }
 
-// ==================== Report button ====================
+// Report button
 
 document.getElementById("report-btn").addEventListener("click", async () => {
   if (!lastResult) return;
@@ -199,7 +196,7 @@ document.getElementById("report-btn").addEventListener("click", async () => {
   }
 });
 
-// ==================== Utility ====================
+// Utility
 
 function escapeHtml(str) {
   const div = document.createElement("div");
