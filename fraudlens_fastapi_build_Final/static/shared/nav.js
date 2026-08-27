@@ -1,8 +1,3 @@
-// ==================== Shared nav + theme persistence ====================
-// Included on every page via <script src="/shared/nav.js"></script>,
-// placed in <head> or early in <body> before page-specific scripts.
-// Injects the top nav bar and restores the saved theme before paint.
-
 (function () {
   const PAGES = [
     { href: "/", label: "Home" },
@@ -11,8 +6,7 @@
     { href: "/reports.html", label: "Reports" },
     { href: "/about.html", label: "About" },
   ];
-
-  // Restore theme immediately (before nav renders) to avoid a flash.
+  
   const savedTheme = localStorage.getItem("fraudlens-theme");
   if (savedTheme) {
     document.documentElement.setAttribute("data-theme", savedTheme);
