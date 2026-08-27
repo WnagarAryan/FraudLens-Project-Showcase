@@ -1,6 +1,3 @@
-/* ==================== Shared site nav ==================== */
-/* Included on every page after style.css. Reuses the same CSS variables. */
-
 .site-nav {
   position: fixed;
   top: 0;
@@ -43,20 +40,13 @@
   color: var(--text-primary);
 }
 
-/* theme-dot is repositioned into the nav flow instead of floating fixed */
 .site-nav .theme-dot {
   position: static;
 }
 
-/* Page content needs top padding to clear the fixed nav, except the hero
-   which already fills the viewport and sits behind the nav intentionally. */
 body:not(.has-hero) {
   padding-top: 64px;
 }
-
-/* ==================== Static content pages ==================== */
-/* Used by how-it-works / reports / about — same panel language as the
-   analyzer results blocks, just narrative content instead of form/results. */
 
 .content-page {
   max-width: 720px;
