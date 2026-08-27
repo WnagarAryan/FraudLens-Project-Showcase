@@ -1,4 +1,4 @@
-/* ==================== Theme variables ==================== */
+/* Theme variables */
 
 :root {
   --bg: #F4F7FA;
@@ -58,7 +58,7 @@ h1, h2 { margin: 0; }
 
 a { color: var(--accent); }
 
-/* ==================== Hero ==================== */
+/* Hero */
 
 .hero {
   position: relative;
@@ -160,7 +160,7 @@ a { color: var(--accent); }
   color: var(--bg);
 }
 
-/* ==================== Panels / form ==================== */
+/* Panels / form */
 
 .panel {
   max-width: 720px;
@@ -282,7 +282,7 @@ textarea { resize: vertical; }
   color: var(--risk-low-text);
 }
 
-/* ==================== Result blocks ==================== */
+/* Result blocks */
 
 .score-row {
   display: grid;
