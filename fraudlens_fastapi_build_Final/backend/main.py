@@ -1,9 +1,9 @@
-# ==================== main.py ====================
+# ===== main.py
 # FastAPI wrapper around pipeline.py. Serves the JSON API the HTML/CSS/JS
 # frontend calls, plus the static frontend files themselves.
 
 from dotenv import load_dotenv
-load_dotenv()  # must run before pipeline.py reads os.getenv() for API keys
+load_dotenv()      # must run before pipeline.py reads os.getenv() for API keys
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -94,4 +94,5 @@ def report_stats():
 
 # Serve the frontend (../static) at the site root. Mounted last so /analyze,
 # /report, /health above take priority over static file matching.
+
 app.mount("/", StaticFiles(directory="../static", html=True), name="static")
