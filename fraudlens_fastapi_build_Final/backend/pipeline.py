@@ -1,4 +1,4 @@
-# ==================== pipeline.py ====================
+# =====>> pipeline.py
 # Framework-agnostic core logic extracted from the original Streamlit app.py.
 # No Streamlit imports here — this module is called by FastAPI (main.py).
 
@@ -29,7 +29,7 @@ STOP_WORDS = set(stopwords.words("english"))
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 OPENCORPORATES_API_TOKEN = os.getenv("OPENCORPORATES_API_TOKEN")
 
-# ==================== Scam Keyword Dictionary ====================
+# =====>> Scam Keyword Dictionary
 
 SCAM_KEYWORDS = {
     "payment_requests": ["registration fee", "processing fee", "training fee", "deposit required",
@@ -46,7 +46,7 @@ SCAM_KEYWORDS = {
         "easy money", "get rich quick", "make money fast"]
 }
 
-# ==================== Model Loading (call once at app startup) ====================
+# =====>> Model Loading (call once at app startup)
 
 _best_model = None
 _tfidf = None
@@ -78,7 +78,7 @@ def get_models():
     return _best_model, _tfidf, _shap_explainer, _feature_names
 
 
-# ==================== Text Processing ====================
+# =====>> Text Processing
 
 def clean_text(text: str) -> str:
     text = re.sub(r"<.*?>", " ", text).lower()
@@ -122,7 +122,7 @@ def get_top_shap_features(shap_values_row, names: List[str], top_n: int = 8) -> 
               "direction": "toward FAKE" if shap_values_row[i] > 0 else "toward REAL"} for i in top_idx]
 
 
-# ==================== Confidence Score ====================
+# =====>> Confidence Score
 
 def calculate_confidence(content_risk, keyword_matches, verification_label, top_shap_features) -> float:
     confidence = 50
@@ -158,7 +158,7 @@ def get_confidence_label(score: float) -> str:
     return "Low Confidence"
 
 
-# ==================== Similar Scam Detection ====================
+# =====>> Similar Scam Detection
 
 def check_against_past_reports(job_description: str, threshold: float = 0.7) -> Optional[Dict]:
     master_path = os.path.join(BASE_DIR, "reported_postings_master.csv")
@@ -186,7 +186,7 @@ def check_against_past_reports(job_description: str, threshold: float = 0.7) -> 
     return None
 
 
-# ==================== LLM Explanation ====================
+# =====>> LLM Explanation
 
 def get_llm_explanation(top_features, keyword_matches=None, content_risk=None, risk_label=None,
                          verification_label=None, job_title=None, company_name=None) -> str:
@@ -273,7 +273,7 @@ Write a clear, specific explanation (3-4 sentences) that tells the job seeker:
         return f"(Explanation unavailable: {str(e)})"
 
 
-# ==================== Company Verification ====================
+# =====>> Company Verification
 
 def check_company_registry(company_name: str) -> Dict:
     if not OPENCORPORATES_API_TOKEN:
@@ -322,7 +322,7 @@ def get_verification_status(has_logo: bool, has_profile: bool, domain: Optional[
     return final_score, label, reasons
 
 
-# ==================== Risk Breakdown (rule-based detail cards) ====================
+# =====>> Risk Breakdown (rule-based detail cards)
 
 def get_risk_breakdown(keyword_matches, top_shap_features, verification_label, has_logo, has_profile) -> List[Dict]:
     risk_items = []
@@ -373,7 +373,7 @@ def get_risk_breakdown(keyword_matches, top_shap_features, verification_label, h
     return risk_items
 
 
-# ==================== Reporting ====================
+# =====>> Reporting
 
 def save_reported_posting(job_title, company_name, job_description, content_risk,
                            verification_label, keyword_matches) -> int:
@@ -394,6 +394,7 @@ def save_reported_posting(job_title, company_name, job_description, content_risk
 
     df = pd.DataFrame(reports)
     df.to_csv(os.path.join(BASE_DIR, "reported_postings.csv"), index=False)
+                               
     # Overwrite master with full current set — avoids duplicate accumulation
     df.to_csv(os.path.join(BASE_DIR, "reported_postings_master.csv"), index=False)
 
@@ -444,7 +445,7 @@ def get_report_stats() -> Dict:
     }
 
 
-# ==================== Main Analysis Function ====================
+# =====>> Main Analysis Function
 
 def analyze_posting(job_title: str, company_name: str, job_description: str,
                      url: Optional[str], has_logo: bool, has_profile: bool, has_questions: bool) -> Dict:
