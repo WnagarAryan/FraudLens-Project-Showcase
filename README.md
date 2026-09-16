@@ -30,6 +30,37 @@ That matters because of who this is for. Someone deciding whether to hand over t
 
 ## How it works
 
+```mermaid
+flowchart LR
+    A["Posting text<br/>or URL"] --> B["trafilatura<br/>extract body"]
+    B --> C["clean_text<br/>NLTK stopwords"]
+    C --> D["TF-IDF<br/>vectorise"]
+    D --> E["hstack<br/>+ logo · questions · profile<br/>+ keyword flag"]
+    E --> F["Classifier<br/>verdict + content risk"]
+
+    F --> G["SHAP<br/>top 8 features"]
+    F --> H["Keyword scan<br/>4 categories"]
+    F --> I["Registry lookup<br/>+ past reports at 0.7"]
+
+    G --> J["LangChain / Groq<br/>plain-English justification"]
+    H --> J
+    I --> J
+
+    J --> K["Confidence<br/>High 70+ · Moderate 50+ · Low"]
+
+    style A fill:#0e1215,color:#9aa3ad,stroke:#3a4048
+    style B fill:#0e1215,color:#d9e1e6,stroke:#3a4048
+    style C fill:#0e1215,color:#d9e1e6,stroke:#3a4048
+    style D fill:#0e1215,color:#d9e1e6,stroke:#3a4048
+    style E fill:#0e1215,color:#d9e1e6,stroke:#3a4048
+    style F fill:#14293E,color:#e8eefc,stroke:#4d9eff
+    style G fill:#0e1215,color:#4d9eff,stroke:#4d9eff
+    style H fill:#0e1215,color:#d9e1e6,stroke:#3a4048
+    style I fill:#0e1215,color:#d9e1e6,stroke:#3a4048
+    style J fill:#14293E,color:#e8eefc,stroke:#4d9eff
+    style K fill:#0e1215,color:#4d9eff,stroke:#4d9eff
+```
+
 | Stage | What happens |
 |---|---|
 | **1. Ingest** | User pastes a posting, or supplies a URL — `trafilatura` extracts the body text and appends it to the description |
